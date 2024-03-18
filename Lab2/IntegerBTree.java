@@ -1,4 +1,4 @@
-package ADA.Lab3;
+package ADA.Lab2;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -53,7 +53,6 @@ public class IntegerBTree {
             insertNonfullStart(r, key);
         }
     }
-
 
     /**
      * Splits a node and introduces the new split as a child of the same parent

@@ -1,5 +1,8 @@
 package ADA.Lab1;
+import org.bouncycastle.asn1.cmp.Challenge;
+
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 public class IntegerBST {
 
@@ -27,7 +30,7 @@ public class IntegerBST {
         ///written by me
         private void preorder(Node x) {
             if( x==null ) return;
-            System.out.print(" "+ x.key);
+            System.out.print(" "+ "key: " + x.key+" value: " +x.val);
             preorder(x.left);
             preorder(x.right);
         }
@@ -45,11 +48,101 @@ public class IntegerBST {
             else return 1+Math.max( height(x.left), height(x.right) );
         }
 
+        public void SpoilValues(){
+            SpoilValues(root);
+        }
 
+        private void SpoilValues(Node x) {
 
+            if( x==null ) return;
+            else {
 
+                x.val = new Random().nextInt()%99;
+                SpoilValues(x.left);
+                SpoilValues(x.right);
+            }
+        }
 
+        public boolean isBST() {
+            return isBST(root);
+        }
 
+        private boolean isBST(Node x) {
+
+            if( x==null ) return true;
+            else {
+
+                if( x.left != null  &&  x.key < x.left.key )
+                    return false;
+
+                if( x.right != null &&  x.key > x.right.key )
+                    return false;
+
+                return isBST(x.left) && isBST(x.right);
+            }
+        }
+
+        public Node Succesor(int key) {
+
+            Node succesor = new Node(0,0);
+            Succesor(root, key,succesor);
+            return succesor;
+        }
+
+        private void Succesor(Node x, int key,Node suc) {
+
+            if( x == null ) return;
+
+            if( x.key == key ) {
+
+                suc = min(x.right);
+                return;
+            }
+
+            if( x.key > key ) {
+                suc = x;
+                Succesor(x.left,key,suc);
+            }
+            else {
+                Succesor(x.right,key,suc);
+            }
+        }
+
+        public Node Predecessor(int key) {
+
+            Node predecessor = new Node(0,0);
+            Predecessor(root,key,predecessor);
+            return predecessor;
+        }
+
+        private void Predecessor(Node x,int key, Node pre) {
+
+            if( x== null) return;
+
+            if( x.key == key) {
+                pre = max(x.left);
+                return;
+            }
+
+            if( x.key < key ) {
+                pre = x;
+                Predecessor(x.right,key,pre);
+            }
+            else {
+                Predecessor(x.left,key,pre);
+            }
+        }
+
+        public boolean isPerfectlyBalanced() {
+            return isPerfectlyBalanced(root);
+        }
+
+        private boolean isPerfectlyBalanced(Node x) {
+                if( x==null ) return true;
+                else {
+                    return Math.abs( height(x.left) - height(x.right) ) <= 1;
+                }
+        }
 
         ///written by me
         /**
@@ -151,19 +244,20 @@ public class IntegerBST {
 
             bst.inorder();
 
+            /*
             System.out.println();
+            System.out.println("element with the key: " + a[0] + "\nhas the succesor key: " + bst.Succesor(a[1]).key);
+            */
 
+            System.out.println();
             bst.delete(a[2]);
 
             System.out.println("inorder: ");
             bst.inorder();
 
             System.out.println();
-            System.out.println("preorder: ");
-            bst.preorder();
+            System.out.println("is perfectly balanced: " + bst.isPerfectlyBalanced());
 
-            System.out.println();
-            System.out.println("height: " + bst.height());
         }
     }
 
