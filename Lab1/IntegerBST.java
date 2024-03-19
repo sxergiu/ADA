@@ -39,6 +39,15 @@ public class IntegerBST {
             preorder(root);
         }
 
+        public void postorder() { postorder(root); }
+
+        private void postorder(Node x) {
+            if( x==null ) return;
+            postorder(x.left);
+            postorder(x.right);
+            System.out.print(" " + x.key);
+        }
+
         public int height() {
             return height(root);
         }
@@ -144,6 +153,61 @@ public class IntegerBST {
                 }
         }
 
+        public Node rotateLeft(int key) {
+
+            Node rot =
+             rotateLeft(root,key);
+
+            return rot;
+        }
+
+        private Node rotateLeft(Node x,int key) {
+
+            if( x==null) return null;
+
+            if( x.key == key ) {
+
+                System.out.println("rotating left at key= " + x.key );
+
+                if( x.right == null )
+                    return x;
+
+                Node y = x.right;
+                x.right = y.left;
+                y.left = x;
+                return y;
+            }
+            else if ( x.key > key ) x.left = rotateLeft(x.left,key);
+            else x.right = rotateLeft(x.right,key);
+
+            return x;
+        }
+
+        public Node rotateRight(int key) {
+                return rotateRight(root,key);
+        }
+
+        private Node rotateRight(Node x,int key) {
+
+            if( x==null ) return null;
+
+            if(x.key > key)
+                x.left = rotateRight(x.left,key);
+            if(x.key > key)
+                x.right = rotateRight(x.right,key);
+            else {
+
+                System.out.println("Rotating right at key= " + x.key);
+                Node y = x.left;
+                x.left = y.right;
+                y.right = x;
+
+                return y;
+            }
+
+            return x;
+        }
+
         ///written by me
         /**
          * Searches for a given key in the BST
@@ -241,22 +305,18 @@ public class IntegerBST {
             for (int i = 0; i < a.length; i++) {
                 bst.put(a[i], a[i]);
             }
-
-            bst.inorder();
-
-            /*
-            System.out.println();
-            System.out.println("element with the key: " + a[0] + "\nhas the succesor key: " + bst.Succesor(a[1]).key);
-            */
-
-            System.out.println();
             bst.delete(a[2]);
+
 
             System.out.println("inorder: ");
             bst.inorder();
 
             System.out.println();
-            System.out.println("is perfectly balanced: " + bst.isPerfectlyBalanced());
+            bst.rotateLeft(30);
+
+            System.out.println("inorder: ");
+            bst.inorder();
+
 
         }
     }

@@ -167,7 +167,93 @@ public class IntegerBTree {
         }
         System.out.println();
     }
+        //written by me
 
+        public boolean contains(int key) {
+                return contains(root,key);
+        }
+
+        private boolean contains( BTreeNode x,int key ) {
+
+                if( x==null ) return false;
+
+                int i=0;
+                while(i<x.n && x.key[i] < key ) i++;
+
+                if( i<x.n && x.key[i] == key )
+                    return true;
+                else if( x.leaf )
+                    return false;
+                return contains(x.child[i],key);
+        }
+
+        public int height(){
+                return height(root);
+        }
+
+        private int height(BTreeNode x) {
+
+            if(  x==null ) return 0;
+            if (x.leaf) return 1;
+            else return 1+height(x.child[0]);
+        }
+
+        public int level(int key) {
+            return level(root,key,0);
+        }
+
+        private int level(BTreeNode x,int key,int level) {
+
+            if( x==null ) return 0;
+
+            int i=0;
+            while( i < x.n && x.key[i] < key ) i++;
+
+            if( i < x.n && x.key[i] == key ) return level;
+
+            if( x.leaf ) return level;
+
+            return level(x.child[i],key,level+1);
+        }
+
+        public int min() {
+            return min(root);
+        }
+
+        private int min(BTreeNode x)  {
+
+            if( x.leaf ) return x.key[0];
+            else return min(x.child[0]);
+        }
+
+        public int max() {
+            return max(root);
+        }
+
+        private int max(BTreeNode x) {
+            if( x.leaf) return x.key[x.n-1];
+            else return max(x.child[x.n]);
+        }
+
+        public void inorder() {
+            inorder(root);
+        }
+
+        private void inorder(BTreeNode x) {
+
+                if( x==null ) {
+                    return;
+                }
+                else {
+                    for( int i=0; i<x.n; i++ ) {
+                        inorder(x.child[i]);
+                        System.out.println( x.key[i] );
+                    }
+                    inorder(x.child[x.n]);
+                }
+        }
+
+        //written by me
 
     public static void main(String[] args) {
         IntegerBTree b = new IntegerBTree(3);
@@ -179,5 +265,13 @@ public class IntegerBTree {
             b.insert(a[i]);
             b.displayLevels();
         }
+
+        System.out.println( b.contains(1) );
+        System.out.println( " btree height: " + b.height() );
+        System.out.println( b.level(22));
+        System.out.println( " btree max val: " + b.max());
+        System.out.println( " btree min val: " + b.min());
+        System.out.println( "inorder traversals:\n");
+        b.inorder();
     }
 }

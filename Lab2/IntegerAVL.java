@@ -58,16 +58,16 @@ public class IntegerAVL {
      * @return the subtree with restored AVL balance property
      */
     private AVLNode balance(AVLNode x) {
-        if (balanceFactor(x) < -1) {
+        if (balanceFactor(x) < -1) { ///RIGHT longer
             if (balanceFactor(x.right) > 0) {
-                x.right = rotateRight(x.right);
+                x.right = rotateRight(x.right); //RL
             }
-            x = rotateLeft(x);
-        } else if (balanceFactor(x) > 1) {
+            x = rotateLeft(x); //RR
+        } else if (balanceFactor(x) > 1) { ///LEFT longer
             if (balanceFactor(x.left) < 0) {
-                x.left = rotateLeft(x.left);
+                x.left = rotateLeft(x.left);  //LR
             }
-            x = rotateRight(x);
+            x = rotateRight(x);         //LL
         }
         return x;
     }
@@ -92,9 +92,11 @@ public class IntegerAVL {
      */
     private AVLNode rotateRight(AVLNode y) {
         System.out.println("rotate right at " + y.key);
+
         AVLNode x = y.left;
         y.left = x.right;
         x.right = y;
+
         y.height = 1 + Math.max(height(y.left), height(y.right));
         x.height = 1 + Math.max(height(x.left), height(x.right));
         return x;
@@ -108,9 +110,11 @@ public class IntegerAVL {
      */
     private AVLNode rotateLeft(AVLNode x) {
         System.out.println("rotate left at " + x.key);
+
         AVLNode y = x.right;
         x.right = y.left;
         y.left = x;
+
         x.height = 1 + Math.max(height(x.left), height(x.right));
         y.height = 1 + Math.max(height(y.left), height(y.right));
         return y;
