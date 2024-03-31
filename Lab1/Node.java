@@ -1,3 +1,5 @@
+package ADA.Lab1;
+
 class Node {
     Integer key;           // sorted by Key
     Integer val;         // associated data
