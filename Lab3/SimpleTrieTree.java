@@ -1,5 +1,12 @@
 package ADA.Lab3;
 
+import U.Y.T;
+import com.ibm.icu.impl.Trie;
+import io.perfmark.Link;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public class SimpleTrieTree {
     private final int R = 256; // R - size of alphabet.
     // in this example keys(words) are sequences of characters from extended ASCII
@@ -66,19 +73,103 @@ public class SimpleTrieTree {
         node.val = val;
     }
 
+    ///written by me
 
     public boolean contains(String key) {
-        System.out.println("operation contains not yet implemented!");
+
+        return contains(root,key,"");
+    }
+
+    private boolean contains(TrieNode x,String key, String prefix) {
+
+        if( x==null ) return false;
+
+        if( x.val != null ) {
+            if( prefix.equals(key) )
+                return true;
+        }
+
+        for( int i=0; i < R; i++ ) {
+
+            if( x.next[i] != null ) {
+                return contains(x.next[i],key, prefix + (char) i );
+            }
+        }
+
         return false;
     }
 
     public void printAllKeys() {
-        System.out.println("operation printAllKeys not yet implemented!");
+
+        StringBuilder sb = new StringBuilder();
+        printAllKeys(root,"",sb);
+        System.out.println(sb.toString());
+    }
+
+    private void printAllKeys(TrieNode x,String prefix,StringBuilder sb) {
+
+        if( x==null ) return;
+
+        if( x.val != null ) {
+            sb.append(prefix).append("\n");
+        }
+
+        for(int i=0; i<R; i++) {
+
+            if( x.next[i] != null )
+                printAllKeys(x.next[i],prefix + (char) i,sb);
+        }
     }
 
     public void printAllWithPrefix(String prefix) {
-        System.out.println("operation printAllWithPrefix not yet implemented!");
+
+        StringBuilder sb = new StringBuilder();
+        printAllWithPrefix(root,"",prefix,sb);
+
+        System.out.println(sb.toString());
     }
+
+    private void printAllWithPrefix(TrieNode x,String crtPrefix, String prefix, StringBuilder sb) {
+
+        if( x==null ) return;
+
+        if( x.val != null && crtPrefix.startsWith(prefix) ){  sb.append(crtPrefix).append("\n"); }
+
+        for( int i=0; i<R; i++ ) {
+
+            if( x.next[i] != null ) {
+
+                printAllWithPrefix(x.next[i],crtPrefix + (char) i,prefix,sb);
+            }
+        }
+    }
+
+    public LinkedList<String> GetAllKeys() {
+
+        LinkedList<String> keys = new LinkedList<String>();
+        GetAllKeys(root,keys,"");
+
+        System.out.println(keys.toString());
+        return keys;
+    }
+
+    private void GetAllKeys(TrieNode x, LinkedList<String> keys, String prefix) {
+
+        if( x==null ) return;
+
+        if( x.val != null ) {
+          keys.add(prefix);
+        }
+
+        for( int i=0; i<R; i++) {
+
+            if( x.next[i] != null ) {
+                GetAllKeys(x.next[i], keys, prefix + (char) i);
+            }
+        }
+    }
+
+    ///written by me
 
     public static void main(String[] args) {
 
@@ -99,10 +190,12 @@ public class SimpleTrieTree {
         System.out.println("keysWithPrefix " + testprefix);
         st.printAllWithPrefix(testprefix);   //Keys with prefix ban: ban banana band bandage
 
-        // System.out.println(st.contains("banana"));  //true
-        // System.out.println(st.contains("blabla"));  //false
-        // System.out.println(st.contains("ban"));     //true
-        // System.out.println(st.contains("ba"));      //false
+        System.out.println(st.contains("banana"));  //true
+         System.out.println(st.contains("blabla"));  //false
+         System.out.println(st.contains("ban"));     //true
+         System.out.println(st.contains("ba"));      //false
+
+        LinkedList<String> keys = st.GetAllKeys();
     }
 }
 

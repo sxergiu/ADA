@@ -95,10 +95,14 @@ public class HufmanEncoderPrototype {
 
         // use Huffman code to encode input
         CompressionResult result = new CompressionResult("", root);
-        // TO DO: Implement compression of input and compute the bits of the CompressionResult!
-        System.out.println("Compression of input not yet implemented - TO DO!");
-        return result;
 
+        StringBuilder encodedBits = new StringBuilder();
+
+        for(int i=0; i<input.length; i++ ) {
+                encodedBits.append(st[input[i]]);
+        }
+
+        return new CompressionResult(encodedBits.toString(),root);
     }
 
 
@@ -149,10 +153,28 @@ public class HufmanEncoderPrototype {
      * @return - the decoded string
      */
     public static String decode(CompressionResult encoded) {
-        String output = "";
-        System.out.println("Decoding not yet implemented - TO DO!");
-        //TO DO: implement decoding
-        return output;
+
+        StringBuilder output = new StringBuilder();
+        HufmanNode currentNode= encoded.huffmanCodes;
+        String encodedBits = encoded.Bits;
+
+        for(int i=0; i<encodedBits.length(); i++) {
+
+            char bit = encodedBits.charAt(i);
+
+            if( bit == '0' ) {
+                currentNode = currentNode.left;
+            }
+            else
+                currentNode = currentNode.right;
+
+            if( currentNode.isLeaf() ) {
+                output.append(currentNode.ch);
+                currentNode = encoded.huffmanCodes;
+            }
+        }
+
+        return output.toString();
     }
 
 
