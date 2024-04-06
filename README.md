@@ -4,4 +4,5 @@ Algorithm Design and Analysis
 - Multiway Trees (Btrees) + AVL (L2)
 - Trie Trees + Hufman (L3)
 - Divide and Conquer (L4)
+- Dynamic Programming (L5)
 
