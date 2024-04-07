@@ -1,5 +1,11 @@
 package ADA.Lab5.LCS;
 
+/*
+    longest commmon subsequence length between 2 strings
+        additional variants: recursive + memoization for simple
+        complex alternative: the lcs itself is returned
+ */
+
 public class LCSDP {
 
     public int LCS_length(String x, String y) {
@@ -8,30 +14,27 @@ public class LCSDP {
         int n = X.length;
         int m = Y.length;
 
-        // replace big result matrix by two current rows
-        int[] result1 = new int[m + 1];  // previous row
-        int[] result2 = new int[m + 1];  // current row
+        //allocate memory for table containing results
+        int[][] result = new int[n+1][m+1];
 
-        for (int j = 0; j <= m; j++) {
-            result1[j] = 0;  // initialize first row
-        }
-        for (int i = 1; i <= n; i++) {
-            // at every iteration i,
-            // result1 holds row i-1 and result2 holds row i
-            result2[0] = 0;   // init element of first column
-            for (int j = 1; j <= m; j++) {
+        // init table elements corresponding to base cases:
+        // init first row and first column with zero
+        for (int i = 0; i <=n; i++)
+            result[i][0]=0;
+        for (int j = 0; j <= m; j++)
+            result[0][j] = 0;
+
+        //iterate through table and compute elements
+        for (int i = 1; i <=n; i++)
+            for (int j = 1; j <=m; j++) {
                 if (X[i - 1] == Y[j - 1]) {
-                    result2[j] = 1 + result1[j - 1];
-                } else
-                    result2[j] = Math.max(result1[j], result2[j - 1]);
+                    result[i][j] = 1 + result[i - 1][j - 1];
+                }
+                else
+                    result[i][j] = Math.max(result[i - 1][j], result[i][j - 1]);
             }
-            // before next iteration, swap rows
-            // the new previous row will be the current row
-            int[] auxi = result1;
-            result1 = result2;
-            result2 = auxi;
-        }
-        return result1[m];
+
+        return result[n][m];
     }
 
 
@@ -52,6 +55,7 @@ public class LCSDP {
 
     public static void main(String[] args) {
         LCSDP solver = new LCSDP();
+
         solver.executeTest("snowflake", "horseback");
         solver.executeTest("intention", "execution");
         solver.executeTest("algorithmic", "altruistic");
