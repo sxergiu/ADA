@@ -19,6 +19,29 @@ import java.util.Vector;
 
 public class Knapsack {
 
+
+    public static boolean hasSolutionDP(int []weights, int k) {
+
+        int n = weights.length;
+        boolean [][] res = new boolean[n+1][k+1];
+
+        for(int i=0; i<=n; i++)
+            res[i][0] = true;
+
+        for(int i=1; i<=n; i++) {
+
+            for(int j=1; j<=k; j++) {
+
+                if( weights[i-1] <= j )
+                    res[i][j] = res[i-1][j] || res[i-1][j-weights[i-1]];
+                else
+                    res[i][j] = res[i-1][j];
+            }
+        }
+
+        return res[n][k];
+    }
+
     /**
      *
      * @param weights the weights of candidate items.
@@ -65,9 +88,20 @@ public class Knapsack {
 
         long start =System.currentTimeMillis();
 
-        boolean isPossible = hasSolution(weights,n, K);
+        boolean isPossible = hasSolutionDP(weights, K);
 
         long end = System.currentTimeMillis();
+        System.out.println("Computation time =" + (end - start) + " ms");
+
+        System.out.println("Result: The knapsack is possible is " + isPossible);
+
+
+
+        start =System.currentTimeMillis();
+
+        isPossible = hasSolutionDP(weights, K);
+
+        end = System.currentTimeMillis();
         System.out.println("Computation time =" + (end - start) + " ms");
 
         System.out.println("Result: The knapsack is possible is " + isPossible);
