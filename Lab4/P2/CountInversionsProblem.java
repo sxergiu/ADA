@@ -1,7 +1,5 @@
 package ADA.Lab4.P2;
 
-import org.jsoup.select.CombiningEvaluator;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;

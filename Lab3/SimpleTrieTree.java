@@ -1,11 +1,6 @@
 package ADA.Lab3;
 
-import U.Y.T;
-import com.ibm.icu.impl.Trie;
-import io.perfmark.Link;
-
 import java.util.LinkedList;
-import java.util.List;
 
 public class SimpleTrieTree {
     private final int R = 256; // R - size of alphabet.

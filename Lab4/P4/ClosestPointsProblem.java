@@ -12,8 +12,6 @@ package ADA.Lab4.P4;
             - the value of the minimum distance.
  */
 
-import com.jetbrains.rd.generator.nova.PredefinedType;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
